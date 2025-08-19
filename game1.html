@@ -1,22 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Game 1</title>
+  <title>Game 1 - Find Hello</title>
   <style>
-    body { text-align:center; font-family: Arial; background: lavender; }
-    button { padding: 10px 20px; font-size: 18px; margin-top:20px; }
+    body { text-align:center; font-family:Arial; }
+    #helloBtn {
+      position:absolute; 
+      padding:10px 20px; 
+      background:skyblue; 
+      border:none; 
+      border-radius:8px;
+      cursor:pointer;
+    }
   </style>
 </head>
 <body>
-  <h1>🎂 Birthday Quiz 🎉</h1>
-  <p>When is my birthday?</p>
-  <button onclick="next()">🎁 Answered!</button>
+  <h2>🎮 Game 1: Find and Click the "Hello" Button!</h2>
+  <button id="helloBtn">Hello</button>
 
   <script>
-    function next(){
-      setTimeout(()=>{ window.location.href="game2.html"; }, 1000);
-    }
+    let clicks = 0;
+    const btn = document.getElementById("helloBtn");
+
+    btn.onclick = function(){
+      clicks++;
+      if(clicks < 3){
+        btn.style.top = Math.random() * 80 + "%";
+        btn.style.left = Math.random() * 80 + "%";
+      } else {
+        window.location.href = "game2.html"; // Redirect after 2 clicks
+      }
+    };
   </script>
 </body>
 </html>
