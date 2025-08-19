@@ -1,24 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Game 2</title>
+  <title>Game 2 - Special</title>
   <style>
-    body { text-align:center; background: lightyellow; font-family: Arial; }
-    input { width: 80%; }
-    button { margin-top: 20px; padding: 10px; font-size: 18px; }
+    body { text-align:center; font-family:Arial; }
+    #msg { font-size:20px; margin-top:50px; }
   </style>
 </head>
 <body>
-  <h1>🌟 How Important Am I? 🌟</h1>
-  <p>Slide to choose (100% please 😁)</p>
-  <input type="range" min="0" max="100" value="50" id="range">
-  <br>
-  <button onclick="go()">Done</button>
+  <h2>🎮 Game 2: How Special Are You?</h2>
+  <button onclick="showMsg()">Click to Know</button>
+  <div id="msg"></div>
 
   <script>
-    function go(){
-      setTimeout(()=>{ window.location.href="game3.html"; }, 1000);
+    function showMsg(){
+      document.getElementById("msg").innerHTML = "💖 You are 100% Special to Me 💖";
+      setTimeout(()=>{ window.location.href="game3.html"; },3000);
     }
   </script>
 </body>
