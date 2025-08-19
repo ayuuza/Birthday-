@@ -1,0 +1,36 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to bottom, #ffe0ed, #cdf0ff);
+  min-height: 100vh;
+  margin: 0;
+  text-align: center;
+}
+h1, h2 {
+  color: #fa60c0;
+}
+#main-content {
+  margin-top: 50px;
+}
+button {
+  margin-top: 10px;
+  padding: 10px 24px;
+  font-size: 16px;
+  background: #faf884;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+button:hover {
+  box-shadow: 0 0 8px #fa60c0;
+}
+textarea, input[type="text"] {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #fa60c0;
+}
+#poem {
+  font-style: italic;
+  color: #ad46be;
+  font-size: 1.2em;
+  margin-top: 32px;
+}
