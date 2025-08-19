@@ -1,22 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Game 3</title>
+  <title>Game 3 - Make a Wish</title>
   <style>
-    body { text-align:center; background: lightblue; font-family: Arial; }
-    button { margin-top:20px; padding: 10px 20px; font-size: 18px; }
+    body { text-align:center; font-family:Arial; }
+    input { padding:8px; width:200px; margin-top:20px; }
+    button { padding:8px 15px; margin-top:10px; }
   </style>
 </head>
 <body>
-  <h1>🎂 Blow the Candle 🎂</h1>
-  <p>Click the button to blow the candle!</p>
-  <img src="https://i.imgur.com/M3a9H5F.png" width="150"><br>
-  <button onclick="done()">Blow 🎉</button>
+  <h2>🎮 Game 3: Enter Your Wish ✨</h2>
+  <input type="text" id="wish" placeholder="Type your wish here...">
+  <br>
+  <button onclick="submitWish()">Submit</button>
+  <p id="response"></p>
 
   <script>
-    function done(){
-      setTimeout(()=>{ window.location.href="wish.html"; }, 1500);
+    function submitWish(){
+      const wish = document.getElementById("wish").value;
+      if(wish){
+        document.getElementById("response").innerHTML = 
+        "🌟 Your wish is too special because <b>you are special</b>. 💝 I am not God but I hope God will listen 🙏";
+        setTimeout(()=>{ window.location.href="final.html"; },5000);
+      }
     }
   </script>
 </body>
