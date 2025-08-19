@@ -1,22 +1,60 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Happy Birthday</title>
-  <style>
-    body { text-align:center; font-family:Arial; background:pink; }
-    h1 { color:purple; }
-  </style>
+  <meta charset="UTF-8">
+  <title>Happy Birthday, Brother!</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>🎉 Happy Birthday 🎉</h1>
-  <p>Here’s a little poem for you:</p>
-  <p><i>🌹 You are the smile that lights my day,<br>
-  A star that never fades away.<br>
-  May your wishes all come true,<br>
-  Because the world is brighter with you. 🌹</i></p>
-
-  <audio autoplay loop>
-    <source src="yoursong.mp3" type="audio/mpeg">
-  </audio>
+  <audio id="bgMusic" src="assets/find-her.mp3" autoplay loop></audio>
+  
+  <div id="main-content">
+    <h1>Happy Birthday!</h1>
+    <div id="enter-name">
+      <label for="name-input">Enter your name:</label>
+      <input type="text" id="name-input" maxlength="20">
+      <button onclick="startGame()">Start</button>
+    </div>
+    
+    <div id="game-section" style="display:none;">
+      <!-- Game 1: Pop Balloons (example) -->
+      <h2>Birthday Game: Pop the Balloons!</h2>
+      <div id="balloon-game"></div>
+      <button onclick="finishGame1()">Next</button>
+    </div>
+    
+    <div id="love-game-section" style="display:none;">
+      <h2>How much do I love you?</h2>
+      <p>Click the heart as many times as you feel loved!</p>
+      <button onclick="increaseLove()">❤️</button>
+      <span id="love-count">0</span>
+      <button onclick="finishLoveGame()">Next</button>
+    </div>
+    
+    <div id="wish-section" style="display:none;">
+      <h2>Write Your Wish!</h2>
+      <textarea id="wish-input" rows="3" cols="30" maxlength="200"></textarea>
+      <button onclick="sendWish()">Send Wish</button>
+    </div>
+    
+    <div id="wish-reply-section" style="display:none;">
+      <h2>You are special so your wish is also special!</h2>
+      <p>I am not God but I know your wish will come true!</p>
+      <button onclick="showFinal()">Continue</button>
+    </div>
+    
+    <div id="final-section" style="display:none;">
+      <h2 id="final-message">Happy Birthday my dear lovely brother!</h2>
+      <p id="poem">
+        Roses are red, violets are blue,<br>
+        On your birthday, I’m grateful for you.<br>
+        Smiles and laughter, happiness and cheer,<br>
+        Wishing you joy not just today, but all year!<br>
+        <b>Happy Birthday!</b>
+      </p>
+    </div>
+  </div>
+  <script src="script.js"></script>
 </body>
-</html>
+  </html>
+    
