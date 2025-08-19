@@ -10,21 +10,7 @@
     background: linear-gradient(to bottom, #f9e2e7 0%, #f5c6cb 100%);
     overflow: hidden;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
-  #background-balloons {
-    position: fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0;
-  }
-  .balloon {
-    position: absolute;
-    background: radial-gradient(circle at center, #ff5e62, #ff9966);
-    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-    width: 40px; height: 60px;
-    cursor: pointer;
-    animation: floatUp linear infinite;
-  }
-  @keyframes floatUp {
-    0% { transform: translateY(100vh) translateX(0); opacity:1; }
-    100% { transform: translateY(-100vh) translateX(20px); opacity:0; }
+    text-align: center;
   }
   #content {
     position: relative; 
@@ -33,34 +19,31 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    z-index: 10;
     color: #222;
-    text-align: center;
   }
   input[type="text"], input[type="button"] {
     padding: 12px;
-    margin: 10px 0;
+    margin: 10px;
     font-size: 20px;
     border: 2px solid #f06d6d;
     border-radius: 8px;
   }
-  #balloon-game {
+  #balloon-game, #wish-input, #final-message {
     display: none;
-    margin-top: 30px;
   }
-  #pop-count {
-    font-weight: bold;
-    margin-bottom: 20px;
+  .balloon {
+    position: absolute;
+    width: 40px; height: 60px;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    cursor: pointer;
   }
-  #final-message {
-    display: none;
-    font-size: 24px;
-  }
-  #wish-input {
-    display: none;
+  #balloons-container {
+    position: relative;
+    width: 100vw; height: 300px;
+    overflow: hidden;
+    margin-top: 20px;
   }
   #sprinklers {
-    margin-top: 20px;
     font-size: 32px;
     color: #ff4081;
     animation: sprinkle 1s ease-in-out infinite alternate;
@@ -73,8 +56,6 @@
 </head>
 <body>
 
-<div id="background-balloons"></div>
-
 <div id="content">
   <div id="name-input-section">
     <h1>Enter your name</h1>
@@ -82,13 +63,13 @@
     <input type="button" id="name-submit" value="Start" />
   </div>
 
-  <div id="greeting" style="display:none;">
+  <div id="greeting">
     <h2>My pretty bro, <span id="name-display"></span>!</h2>
   </div>
 
   <div id="balloon-game">
     <div id="pop-count">Balloons popped: 0 / 8</div>
-    <div id="balloons-container" style="position: relative; width: 100vw; height: 300px; overflow: hidden;"></div>
+    <div id="balloons-container"></div>
   </div>
 
   <div id="wish-input">
@@ -107,24 +88,21 @@
   </div>
 </div>
 
-<!-- Background Music -->
-<audio id="bg-music" src="https://drive.google.com/uc?export=download&id=1-2CafQZJPfTYLAyZtlLyR3bXTPXHHAzO" loop autoplay></audio>
+<audio id="bg-music" src="https://drive.google.com/uc?export=download&id=1-2CafQZJPfTYLAyZtlLyR3bXTPXHHAzO" loop></audio>
 
 <script>
+  const bgMusic = document.getElementById('bg-music');
   const nameInputSection = document.getElementById('name-input-section');
   const nameInput = document.getElementById('name-input');
   const nameSubmit = document.getElementById('name-submit');
   const greeting = document.getElementById('greeting');
   const nameDisplay = document.getElementById('name-display');
-
   const balloonGame = document.getElementById('balloon-game');
   const balloonsContainer = document.getElementById('balloons-container');
   const popCountDisplay = document.getElementById('pop-count');
-
   const wishInput = document.getElementById('wish-input');
   const wishText = document.getElementById('wish-text');
   const wishSubmit = document.getElementById('wish-submit');
-
   const finalMessage = document.getElementById('final-message');
   const wishDisplay = document.getElementById('wish-display');
   const finalName = document.getElementById('final-name');
@@ -132,16 +110,22 @@
   let balloonsPopped = 0;
   let userName = '';
 
+  greeting.style.display = 'none';
+
   nameSubmit.onclick = () => {
     const val = nameInput.value.trim();
-    if (val === '') {
+    if(!val) {
       alert('Please enter your name');
       return;
     }
     userName = val;
+
+    // Play background music on user interaction
+    bgMusic.play().catch(() => { console.log('Autoplay prevented'); });
+
     nameInputSection.style.display = 'none';
     greeting.style.display = 'block';
-    nameDisplay.innerText = userName;
+    nameDisplay.textContent = userName;
 
     setTimeout(() => {
       greeting.style.display = 'none';
@@ -153,33 +137,31 @@
     balloonGame.style.display = 'block';
     balloonsContainer.innerHTML = '';
     balloonsPopped = 0;
-    popCountDisplay.innerText = `Balloons popped: ${balloonsPopped} / 8`;
+    popCountDisplay.textContent = `Balloons popped: ${balloonsPopped} / 8`;
 
     for(let i=0; i<8; i++) {
-      let balloon = document.createElement('div');
-      balloon.className = 'balloon';
-      balloon.style.left = `${Math.random()* (window.innerWidth - 50)}px`;
-      balloon.style.top = `${window.innerHeight + (Math.random()*100)}px`;
-      balloon.style.background = randomColor();
-      balloon.style.animationDuration = (3 + Math.random() * 3) + 's';
-
+      const balloon = document.createElement('div');
+      balloon.classList.add('balloon');
+      balloon.style.background = getRandomColor();
+      balloon.style.left = `${Math.random() * (window.innerWidth - 50)}px`;
+      balloon.style.top = `250px`;
+      balloon.style.animation = `floatUp ${3 + Math.random() * 3}s linear infinite`;
       balloon.onclick = () => {
-        balloonsPopped++;
         balloonsContainer.removeChild(balloon);
-        popCountDisplay.innerText = `Balloons popped: ${balloonsPopped} / 8`;
-        if (balloonsPopped === 8) {
+        balloonsPopped++;
+        popCountDisplay.textContent = `Balloons popped: ${balloonsPopped} / 8`;
+        if(balloonsPopped === 8) {
           balloonGame.style.display = 'none';
           showWishInput();
         }
       };
-
       balloonsContainer.appendChild(balloon);
     }
   }
 
-  function randomColor() {
+  function getRandomColor() {
     const colors = ['#ff5e62','#ff9966','#f9d423','#00c6ff','#7ee8fa','#7cdbd5','#8e2de2','#4a00e0'];
-    return colors[Math.floor(Math.random()*colors.length)];
+    return colors[Math.floor(Math.random() * colors.length)];
   }
 
   function showWishInput() {
@@ -187,7 +169,7 @@
   }
 
   wishSubmit.onclick = () => {
-    if (wishText.value.trim() === '') {
+    if(!wishText.value.trim()) {
       alert('Please enter your wish');
       return;
     }
@@ -197,10 +179,17 @@
 
   function showFinalMessage() {
     finalMessage.style.display = 'block';
-    wishDisplay.innerText = wishText.value.trim();
-    finalName.innerText = userName;
+    wishDisplay.textContent = wishText.value.trim();
+    finalName.textContent = userName;
   }
 </script>
+
+<style>
+@keyframes floatUp {
+  0% {transform: translateY(0);}
+  100% {transform: translateY(-400px);}
+}
+</style>
+
 </body>
 </html>
-
