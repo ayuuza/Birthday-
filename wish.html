@@ -1,45 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Happy Birthday!</title>
-  <style>
-    body { text-align:center; background: pink; font-family: cursive; overflow:hidden; }
-    h1 { font-size: 40px; }
-    p { font-size: 20px; }
-  </style>
+  <title>Happy Birthday 🎉</title>
 </head>
-<body>
-  <h1>🎉 Happy Birthday <span id="name"></span> 🎂</h1>
-  <p>May your day be filled with joy, laughter, and love! 💖</p>
-  <p>
-    🌹 Like the stars you shine so bright,<br>
-    A sapphire soul, a pure delight,<br>
-    May happiness forever stay,<br>
-    With love that grows each passing day. 🌹
-  </p>
+<body style="text-align:center; font-family:sans-serif; background:#ffe6f2;">
+
+  <h1>🎂 Special Birthday Surprise 🎂</h1>
+  <p>Enter your name to begin:</p>
+
+  <input type="text" id="nameInput" placeholder="Your Name">
+  <button onclick="start()">Start</button>
+
+  <!-- Birthday song -->
+  <audio id="song" src="sapphire.mp3"></audio>
 
   <script>
-    document.getElementById("name").innerText = localStorage.getItem("bdayName") || "Friend";
+    function start() {
+      let name = document.getElementById("nameInput").value.trim();
+      if (!name) {
+        alert("Please enter your name first!");
+        return;
+      }
 
-    // Confetti effect
-    for(let i=0; i<30; i++){
-      let conf = document.createElement("div");
-      conf.innerText = "🎉";
-      conf.style.position="absolute";
-      conf.style.left = Math.random()*100 + "vw";
-      conf.style.top = "-50px";
-      conf.style.fontSize="24px";
-      conf.style.animation = "fall 4s linear infinite";
-      conf.style.animationDelay = (Math.random()*5)+"s";
-      document.body.appendChild(conf);
+      // Play song
+      let audio = document.getElementById("song");
+      audio.play().catch(err => console.log("Autoplay blocked:", err));
+
+      // Redirect after short delay so music starts
+      setTimeout(() => {
+        window.location.href = "game1.html?name=" + encodeURIComponent(name);
+      }, 2000);
     }
   </script>
-
-  <style>
-    @keyframes fall {
-      to { transform: translateY(110vh); }
-    }
-  </style>
 </body>
 </html>
