@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Game 2</title>
+  <style>
+    body { text-align:center; background: lightyellow; font-family: Arial; }
+    input { width: 80%; }
+    button { margin-top: 20px; padding: 10px; font-size: 18px; }
+  </style>
+</head>
+<body>
+  <h1>🌟 How Important Am I? 🌟</h1>
+  <p>Slide to choose (100% please 😁)</p>
+  <input type="range" min="0" max="100" value="50" id="range">
+  <br>
+  <button onclick="go()">Done</button>
+
+  <script>
+    function go(){
+      setTimeout(()=>{ window.location.href="game3.html"; }, 1000);
+    }
+  </script>
+</body>
+</html>
