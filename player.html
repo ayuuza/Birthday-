@@ -1,6 +1,159 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Birthday Surprise 🎉</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #fff0f5;
+      margin: 0;
+      padding: 20px;
+    }
+    .hidden { display: none; }
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: none;
+      background: #ff69b4;
+      color: white;
+      cursor: pointer;
+    }
+    input {
+      padding: 8px;
+      font-size: 16px;
+      margin: 5px;
+    }
+    .box {
+      margin: 20px auto;
+      padding: 20px;
+      border: 2px solid #ff69b4;
+      border-radius: 12px;
+      max-width: 400px;
+      background: #ffe4f1;
+    }
+  </style>
+</head>
 <body>
-<audio src="Sapphire.mp3" autoplay loop></audio>
+
+  <!-- Step 1: Name entry -->
+  <div id="step1">
+    <h1>🎂 Special Birthday Surprise 🎂</h1>
+    <p>Enter your name to begin:</p>
+    <input type="text" id="nameInput" placeholder="Your Name">
+    <button onclick="start()">Start</button>
+  </div>
+
+  <!-- Step 2: Game 1 -->
+  <div id="step2" class="hidden">
+    <h2>Game 1: Find the Hidden Hello Button 👀</h2>
+    <p>Click the "Hello" button twice to move forward!</p>
+    <button id="helloBtn" onclick="clickHello()">Hello</button>
+  </div>
+
+  <!-- Step 3: Game 2 -->
+  <div id="step3" class="hidden">
+    <h2>Game 2: How Special Are You? 🌟</h2>
+    <p>On a scale of 1 to 10, how special are you for me?</p>
+    <input type="number" id="specialInput" min="1" max="10">
+    <button onclick="checkSpecial()">Submit</button>
+    <p id="specialMsg"></p>
+  </div>
+
+  <!-- Step 4: Game 3 -->
+  <div id="step4" class="hidden">
+    <h2>Game 3: Make a Birthday Wish 🎁</h2>
+    <div class="box">
+      <p>Type your wish below:</p>
+      <input type="text" id="wishInput" placeholder="Your Wish">
+      <button onclick="submitWish()">Wish</button>
+      <p id="wishMsg"></p>
+    </div>
+  </div>
+
+  <!-- Final Step -->
+  <div id="final" class="hidden">
+    <h2>🎉 Happy Birthday <span id="friendName"></span> 🎉</h2>
+    <p>Here’s a sweet message just for you 💖</p>
+    <div class="box">
+      <p>
+        Teri muskaan se roshan hai ye jahan,<br>
+        Har din tera ho khushiyon se mehmaan.<br>
+        Zindagi tere liye ek nayi kahani ho,<br>
+        Har pal meethi yaad aur suhani ho. 🌸
+      </p>
+    </div>
+  </div>
+
+  <!-- Song -->
+  <audio id="song" src="findingher.mp3"></audio>
+
+  <script>
+    let helloClicks = 0;
+    let userName = "";
+
+    function start() {
+      userName = document.getElementById("nameInput").value.trim();
+      if (!userName) {
+        alert("Please enter your name first!");
+        return;
+      }
+
+      document.getElementById("step1").classList.add("hidden");
+      document.getElementById("step2").classList.remove("hidden");
+
+      let audio = document.getElementById("song");
+      audio.play().catch(() => {
+        console.log("Autoplay blocked, user must click first.");
+      });
+    }
+
+    function clickHello() {
+      helloClicks++;
+      if (helloClicks < 2) {
+        // Move button randomly
+        let btn = document.getElementById("helloBtn");
+        btn.style.position = "absolute";
+        btn.style.left = Math.random() * (window.innerWidth - 100) + "px";
+        btn.style.top = Math.random() * (window.innerHeight - 50) + "px";
+      } else {
+        // Move to Game 2
+        document.getElementById("step2").classList.add("hidden");
+        document.getElementById("step3").classList.remove("hidden");
+      }
+    }
+
+    function checkSpecial() {
+      let val = document.getElementById("specialInput").value;
+      let msg = document.getElementById("specialMsg");
+      if (!val) {
+        msg.innerText = "Please enter a number!";
+        return;
+      }
+      msg.innerText = "No matter the number, you are always 10/10 🌟";
+      setTimeout(() => {
+        document.getElementById("step3").classList.add("hidden");
+        document.getElementById("step4").classList.remove("hidden");
+      }, 2000);
+    }
+
+    function submitWish() {
+      let wish = document.getElementById("wishInput").value.trim();
+      let msg = document.getElementById("wishMsg");
+      if (!wish) {
+        msg.innerText = "Please enter a wish!";
+        return;
+      }
+      msg.innerText = "Your wish is too special because YOU are special 💖. I’m not a God, but I hope God will listen. 🙏";
+      setTimeout(() => {
+        document.getElementById("step4").classList.add("hidden");
+        document.getElementById("final").classList.remove("hidden");
+        document.getElementById("friendName").innerText = userName;
+      }, 3000);
+    }
+  </script>
 </body>
-</html>
+      </html>
