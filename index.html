@@ -8,7 +8,7 @@
   body, html {
     margin:0; padding:0; width:100%; height:100%;
     background: linear-gradient(to bottom, #f9e2e7 0%, #f5c6cb 100%);
-    overflow: hidden;
+    overflow-x: hidden;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     text-align: center;
   }
@@ -36,6 +36,7 @@
     width: 40px; height: 60px;
     border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
     cursor: pointer;
+    user-select: none;
   }
   #balloons-container {
     position: relative;
@@ -51,6 +52,10 @@
   @keyframes sprinkle {
     0% {opacity: 1;}
     100% {opacity: 0.6;}
+  }
+  @keyframes floatUp {
+    0% {transform: translateY(300px);}
+    100% {transform: translateY(-400px);}
   }
 </style>
 </head>
@@ -120,7 +125,7 @@
     }
     userName = val;
 
-    // Play background music on user interaction
+    // Play music on user interaction
     bgMusic.play().catch(() => { console.log('Autoplay prevented'); });
 
     nameInputSection.style.display = 'none';
@@ -143,11 +148,14 @@
       const balloon = document.createElement('div');
       balloon.classList.add('balloon');
       balloon.style.background = getRandomColor();
+      
+      // Start position random within container width, bottom start
       balloon.style.left = `${Math.random() * (window.innerWidth - 50)}px`;
       balloon.style.top = `250px`;
-      balloon.style.animation = `floatUp ${3 + Math.random() * 3}s linear infinite`;
+      balloon.style.animation = `floatUp ${3 + Math.random() * 3}s linear forwards`; 
+
       balloon.onclick = () => {
-        balloonsContainer.removeChild(balloon);
+        balloon.remove();
         balloonsPopped++;
         popCountDisplay.textContent = `Balloons popped: ${balloonsPopped} / 8`;
         if(balloonsPopped === 8) {
@@ -183,13 +191,6 @@
     finalName.textContent = userName;
   }
 </script>
-
-<style>
-@keyframes floatUp {
-  0% {transform: translateY(0);}
-  100% {transform: translateY(-400px);}
-}
-</style>
 
 </body>
 </html>
