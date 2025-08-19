@@ -1,113 +1,206 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Happy Birthday Brother!</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to bottom, #ffe0ed, #cdf0ff);
-      min-height: 100vh;
-      margin: 0;
-      text-align: center;
-    }
-    h1, h2 {
-      color: #fa60c0;
-    }
-    #main-content {
-      margin-top: 50px;
-    }
-    button {
-      margin-top: 10px;
-      padding: 10px 24px;
-      font-size: 16px;
-      background: #faf884;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-    button:hover {
-      box-shadow: 0 0 8px #fa60c0;
-    }
-    textarea, input[type="text"] {
-      padding: 8px;
-      border-radius: 6px;
-      border: 1px solid #fa60c0;
-    }
-    #poem {
-      font-style: italic;
-      color: #ad46be;
-      font-size: 1.2em;
-      margin-top: 32px;
-    }
-    #balloon-container {
-      position: relative;
-      height: 300px;
-      overflow: hidden;
-      background: #cceeff;
-      border: 2px solid #000;
-      margin: 0 auto;
-      width: 300px;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Birthday Surprise</title>
+<style>
+  body, html {
+    margin:0; padding:0; width:100%; height:100%;
+    background: linear-gradient(to bottom, #f9e2e7 0%, #f5c6cb 100%);
+    overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  #background-balloons {
+    position: fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0;
+  }
+  .balloon {
+    position: absolute;
+    background: radial-gradient(circle at center, #ff5e62, #ff9966);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    width: 40px; height: 60px;
+    cursor: pointer;
+    animation: floatUp linear infinite;
+  }
+  @keyframes floatUp {
+    0% { transform: translateY(100vh) translateX(0); opacity:1; }
+    100% { transform: translateY(-100vh) translateX(20px); opacity:0; }
+  }
+  #content {
+    position: relative; 
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 10;
+    color: #222;
+    text-align: center;
+  }
+  input[type="text"], input[type="button"] {
+    padding: 12px;
+    margin: 10px 0;
+    font-size: 20px;
+    border: 2px solid #f06d6d;
+    border-radius: 8px;
+  }
+  #balloon-game {
+    display: none;
+    margin-top: 30px;
+  }
+  #pop-count {
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  #final-message {
+    display: none;
+    font-size: 24px;
+  }
+  #wish-input {
+    display: none;
+  }
+  #sprinklers {
+    margin-top: 20px;
+    font-size: 32px;
+    color: #ff4081;
+    animation: sprinkle 1s ease-in-out infinite alternate;
+  }
+  @keyframes sprinkle {
+    0% {opacity: 1;}
+    100% {opacity: 0.6;}
+  }
+</style>
 </head>
 <body>
-  <!-- Background music using Google Drive link replace FILE_ID below with your actual file ID or use local -->
-  <audio autoplay loop>
-    <source src="https://drive.google.com/file/d/1-2CafQZJPfTYLAyZtlLyR3bXTPXHHAzO/view?usp=drivesdk" type="audio/mpeg" />
-    Your browser does not support the audio element.
-  </audio>
 
-  <div id="main-content">
-    <h1>Happy Birthday!</h1>
-    <div id="enter-name">
-      <label for="name-input">Enter your name:</label>
-      <input type="text" id="name-input" maxlength="20" />
-      <button onclick="startGame()">Start</button>
-    </div>
+<div id="background-balloons"></div>
 
-    <div id="game-section" style="display:none;">
-      <h2>Birthday Game: Pop the Balloons!</h2>
-      <div id="balloon-container"></div>
-      <p>Pop as many balloons as you can in 20 seconds!</p>
-      <div>Score: <span id="balloon-score">0</span></div>
-      <button onclick="endBalloonGame()">Finish Game</button>
-    </div>
-
-    <div id="love-game-section" style="display:none;">
-      <h2>How much do I love you?</h2>
-      <p>Choose an option that shows how much you feel loved!</p>
-      <button onclick="increaseLove(1)">❤️ A little</button>
-      <button onclick="increaseLove(5)">💕 A lot</button>
-      <div>Love points: <span id="love-count">0</span></div>
-      <button onclick="finishLoveGame()">Next</button>
-    </div>
-
-    <div id="wish-section" style="display:none;">
-      <h2>Write Your Wish!</h2>
-      <textarea id="wish-input" rows="3" cols="30" maxlength="200"></textarea>
-      <button onclick="sendWish()">Send Wish</button>
-    </div>
-
-    <div id="wish-reply-section" style="display:none;">
-      <h2>You are special so your wish is also special!</h2>
-      <p>I am not God but I know your wish will come true!</p>
-      <button onclick="showFinal()">Continue</button>
-    </div>
-
-    <div id="final-section" style="display:none;">
-      <h2 id="final-message">Happy Birthday my dear lovely brother!</h2>
-      <p id="poem">
-        Roses are red, violets are blue,<br />
-        On your birthday, I’m grateful for you.<br />
-        Smiles and laughter, happiness and cheer,<br />
-        Wishing you joy not just today, but all year!<br />
-        <b>Happy Birthday!</b>
-      </p>
-    </div>
+<div id="content">
+  <div id="name-input-section">
+    <h1>Enter your name</h1>
+    <input type="text" id="name-input" placeholder="Your name" />
+    <input type="button" id="name-submit" value="Start" />
   </div>
 
-  <script src="script.js"></script>
+  <div id="greeting" style="display:none;">
+    <h2>My pretty bro, <span id="name-display"></span>!</h2>
+  </div>
+
+  <div id="balloon-game">
+    <div id="pop-count">Balloons popped: 0 / 8</div>
+    <div id="balloons-container" style="position: relative; width: 100vw; height: 300px; overflow: hidden;"></div>
+  </div>
+
+  <div id="wish-input">
+    <h3>Enter your birthday wish</h3>
+    <input type="text" id="wish-text" placeholder="Your wish..." />
+    <input type="button" id="wish-submit" value="Submit Wish" />
+  </div>
+
+  <div id="final-message">
+    <h2>You are a special person!</h2>
+    <p>Your wish is: <span id="wish-display"></span></p>
+    <p>I’m not a god, but your wish becomes true!</p>
+    <h3>Happy Birthday my lovely brother <span id="final-name"></span>!</h3>
+    <div>🎈🎉🎊🎂✨</div>
+    <div id="sprinklers">🌟🌟🌟🌟🌟</div>
+  </div>
+</div>
+
+<!-- Background Music -->
+<audio id="bg-music" src="https://drive.google.com/uc?export=download&id=1-2CafQZJPfTYLAyZtlLyR3bXTPXHHAzO" loop autoplay></audio>
+
+<script>
+  const nameInputSection = document.getElementById('name-input-section');
+  const nameInput = document.getElementById('name-input');
+  const nameSubmit = document.getElementById('name-submit');
+  const greeting = document.getElementById('greeting');
+  const nameDisplay = document.getElementById('name-display');
+
+  const balloonGame = document.getElementById('balloon-game');
+  const balloonsContainer = document.getElementById('balloons-container');
+  const popCountDisplay = document.getElementById('pop-count');
+
+  const wishInput = document.getElementById('wish-input');
+  const wishText = document.getElementById('wish-text');
+  const wishSubmit = document.getElementById('wish-submit');
+
+  const finalMessage = document.getElementById('final-message');
+  const wishDisplay = document.getElementById('wish-display');
+  const finalName = document.getElementById('final-name');
+
+  let balloonsPopped = 0;
+  let userName = '';
+
+  nameSubmit.onclick = () => {
+    const val = nameInput.value.trim();
+    if (val === '') {
+      alert('Please enter your name');
+      return;
+    }
+    userName = val;
+    nameInputSection.style.display = 'none';
+    greeting.style.display = 'block';
+    nameDisplay.innerText = userName;
+
+    setTimeout(() => {
+      greeting.style.display = 'none';
+      startBalloonGame();
+    }, 2000);
+  };
+
+  function startBalloonGame() {
+    balloonGame.style.display = 'block';
+    balloonsContainer.innerHTML = '';
+    balloonsPopped = 0;
+    popCountDisplay.innerText = `Balloons popped: ${balloonsPopped} / 8`;
+
+    for(let i=0; i<8; i++) {
+      let balloon = document.createElement('div');
+      balloon.className = 'balloon';
+      balloon.style.left = `${Math.random()* (window.innerWidth - 50)}px`;
+      balloon.style.top = `${window.innerHeight + (Math.random()*100)}px`;
+      balloon.style.background = randomColor();
+      balloon.style.animationDuration = (3 + Math.random() * 3) + 's';
+
+      balloon.onclick = () => {
+        balloonsPopped++;
+        balloonsContainer.removeChild(balloon);
+        popCountDisplay.innerText = `Balloons popped: ${balloonsPopped} / 8`;
+        if (balloonsPopped === 8) {
+          balloonGame.style.display = 'none';
+          showWishInput();
+        }
+      };
+
+      balloonsContainer.appendChild(balloon);
+    }
+  }
+
+  function randomColor() {
+    const colors = ['#ff5e62','#ff9966','#f9d423','#00c6ff','#7ee8fa','#7cdbd5','#8e2de2','#4a00e0'];
+    return colors[Math.floor(Math.random()*colors.length)];
+  }
+
+  function showWishInput() {
+    wishInput.style.display = 'block';
+  }
+
+  wishSubmit.onclick = () => {
+    if (wishText.value.trim() === '') {
+      alert('Please enter your wish');
+      return;
+    }
+    wishInput.style.display = 'none';
+    showFinalMessage();
+  };
+
+  function showFinalMessage() {
+    finalMessage.style.display = 'block';
+    wishDisplay.innerText = wishText.value.trim();
+    finalName.innerText = userName;
+  }
+</script>
 </body>
-  </html>
-  
+</html>
+
