@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Game 1</title>
+  <style>
+    body { text-align:center; font-family: Arial; background: lavender; }
+    button { padding: 10px 20px; font-size: 18px; margin-top:20px; }
+  </style>
+</head>
+<body>
+  <h1>🎂 Birthday Quiz 🎉</h1>
+  <p>When is my birthday?</p>
+  <button onclick="next()">🎁 Answered!</button>
+
+  <script>
+    function next(){
+      setTimeout(()=>{ window.location.href="game2.html"; }, 1000);
+    }
+  </script>
+</body>
+</html>
