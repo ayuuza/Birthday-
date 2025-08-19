@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Happy Birthday!</title>
+  <style>
+    body { text-align:center; background: pink; font-family: cursive; overflow:hidden; }
+    h1 { font-size: 40px; }
+    p { font-size: 20px; }
+  </style>
+</head>
+<body>
+  <h1>🎉 Happy Birthday <span id="name"></span> 🎂</h1>
+  <p>May your day be filled with joy, laughter, and love! 💖</p>
+  <p>
+    🌹 Like the stars you shine so bright,<br>
+    A sapphire soul, a pure delight,<br>
+    May happiness forever stay,<br>
+    With love that grows each passing day. 🌹
+  </p>
+
+  <script>
+    document.getElementById("name").innerText = localStorage.getItem("bdayName") || "Friend";
+
+    // Confetti effect
+    for(let i=0; i<30; i++){
+      let conf = document.createElement("div");
+      conf.innerText = "🎉";
+      conf.style.position="absolute";
+      conf.style.left = Math.random()*100 + "vw";
+      conf.style.top = "-50px";
+      conf.style.fontSize="24px";
+      conf.style.animation = "fall 4s linear infinite";
+      conf.style.animationDelay = (Math.random()*5)+"s";
+      document.body.appendChild(conf);
+    }
+  </script>
+
+  <style>
+    @keyframes fall {
+      to { transform: translateY(110vh); }
+    }
+  </style>
+</body>
+</html>
