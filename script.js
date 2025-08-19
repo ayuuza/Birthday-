@@ -1,4 +1,8 @@
 let brotherName = '';
+let balloonScore = 0;
+let balloonGameInterval;
+let balloonGameTime = 20; // seconds
+let balloonTimerInterval;
 let loveCount = 0;
 
 function startGame() {
@@ -9,16 +13,63 @@ function startGame() {
   }
   document.getElementById('enter-name').style.display = 'none';
   document.getElementById('game-section').style.display = '';
-  // You can add balloon game logic here or use a library for a simple mini-game
+
+  balloonScore = 0;
+  document.getElementById('balloon-score').textContent = balloonScore;
+
+  balloonGameTime = 20;
+
+  balloonGameInterval = setInterval(createBalloon, 700);
+
+  balloonTimerInterval = setInterval(() => {
+    balloonGameTime--;
+    if (balloonGameTime <= 0) {
+      endBalloonGame();
+    }
+  }, 1000);
 }
 
-function finishGame1() {
+function createBalloon() {
+  const balloonContainer = document.getElementById('balloon-container');
+  const balloon = document.createElement('div');
+  balloon.textContent = '🎈';
+  balloon.style.position = 'absolute';
+  balloon.style.fontSize = '36px';
+  balloon.style.left =
+    Math.random() * (balloonContainer.clientWidth - 50) + 'px';
+  balloon.style.top = balloonContainer.clientHeight + 'px';
+  balloon.style.cursor = 'pointer';
+  balloon.style.userSelect = 'none';
+
+  balloon.addEventListener('click', () => {
+    balloon.remove();
+    balloonScore++;
+    document.getElementById('balloon-score').textContent = balloonScore;
+  });
+
+  balloonContainer.appendChild(balloon);
+
+  let topPos = balloonContainer.clientHeight;
+  let moveUp = setInterval(() => {
+    if (topPos <= -50) {
+      balloon.remove();
+      clearInterval(moveUp);
+    } else {
+      topPos -= 3;
+      balloon.style.top = topPos + 'px';
+    }
+  }, 30);
+}
+
+function endBalloonGame() {
+  clearInterval(balloonGameInterval);
+  clearInterval(balloonTimerInterval);
   document.getElementById('game-section').style.display = 'none';
   document.getElementById('love-game-section').style.display = '';
 }
 
-function increaseLove() {
-  loveCount++;
+function increaseLove(amount) {
+  loveCount += amount;
   document.getElementById('love-count').textContent = loveCount;
 }
 
@@ -41,7 +92,6 @@ function showFinal() {
   document.getElementById('wish-reply-section').style.display = 'none';
   document.getElementById('final-section').style.display = '';
 
-  // Personalised birthday message
   document.getElementById('final-message').textContent =
     'Happy Birthday my dear lovely brother ' + brotherName + '!';
-                          }
+}
